@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Arduino Smart Traffic Light</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f2f2f2;margin:30px}
+.card{background:white;padding:20px;margin-bottom:20px;border-radius:15px;box-shadow:0 3px 10px #aaa}
+table{border-collapse:collapse;width:100%}
+td,th{border:1px solid #aaa;padding:10px;text-align:center}
+pre{background:#222;color:#0f0;padding:15px;border-radius:10px}
+</style>
+</head>
+<body>
+<h1>🚦 Arduino 스마트 신호등 프로젝트</h1>
+<div class="card">
+<h2>사용 부품</h2>
+<ul><li>Arduino UNO</li><li>3색 신호등 LED</li><li>버튼</li><li>피에조 부저</li></ul>
+</div>
+<div class="card">
+<h2>핀 연결</h2>
+<table>
+<tr><th>부품</th><th>핀</th></tr>
+<tr><td>빨간 LED</td><td>D11</td></tr>
+<tr><td>노란 LED</td><td>D12</td></tr>
+<tr><td>초록 LED</td><td>D13</td></tr>
+<tr><td>버튼</td><td>D7 + GND</td></tr>
+<tr><td>부저</td><td>D8 + GND</td></tr>
+</table>
+</div>
+<div class="card">
+<h2>동작</h2>
+<p>버튼 입력으로 신호등과 부저를 제어하는 Arduino 프로젝트</p>
+</div>
+<div class="card">
+<h2>Arduino 코드</h2>
+<pre>
+const int BUTTON = 7;
+const int BUZZER = 8;
+
+bool soundOn = false;
+bool lastButton = HIGH;
+
+void setup(){
+ pinMode(BUTTON, INPUT_PULLUP);
+ pinMode(BUZZER, OUTPUT);
+}
+
+void loop(){
+ bool now = digitalRead(BUTTON);
+
+ if(lastButton == HIGH && now == LOW){
+   soundOn = !soundOn;
+   delay(200);
+ }
+
+ lastButton = now;
+
+ if(soundOn){
+   tone(BUZZER,1500);
+   delay(100);
+   tone(BUZZER,1000);
+   delay(100);
+ }
+ else{
+   noTone(BUZZER);
+ }
+}
+</pre>
+</div>
+</body>
+</html>
